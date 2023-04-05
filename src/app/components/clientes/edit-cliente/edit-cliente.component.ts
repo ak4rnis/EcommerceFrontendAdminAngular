@@ -13,6 +13,8 @@ export class EditClienteComponent implements OnInit {
   public cliente:any = {}
   public id:any;
   public token:any;
+  public load_btn:Boolean = false;
+  public load_data:Boolean = true;
   constructor(private _route: ActivatedRoute, private _clienteService: ClienteService, private _adminService: AdminService, private _router:Router)
   {
     this.token = this._adminService.getToken();
@@ -26,10 +28,12 @@ export class EditClienteComponent implements OnInit {
             if(response.data == undefined)
             {
               this.cliente = undefined;
+              this.load_data = false;
             }else{
               
               this.cliente = response.data;
               console.log(this.cliente);
+              this.load_data = false;
             }
           },
           error => {
@@ -43,6 +47,7 @@ export class EditClienteComponent implements OnInit {
   {
     if(updateForm.valid)
     {
+      this.load_btn = true;
       this._clienteService.actualizar_cliente_admin(this.id,this.cliente,this.token).subscribe(
         response => {
           console.log(response)
@@ -54,6 +59,7 @@ export class EditClienteComponent implements OnInit {
             position: 'topRight',
             message: 'se actualizo correctamente el cliente'
           });
+          this.load_btn = false;
           this._router.navigate(['/panel/clientes']);
         },
         error => {
