@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AdminService } from 'src/app/service/admin.service';
+import { ProductoService } from 'src/app/service/producto.service';
 
 declare var iziToast:any;
 declare var JQuery:any;
@@ -10,12 +13,20 @@ declare var $:any;
   styleUrls: ['./create-producto.component.css']
 })
 export class CreateProductoComponent implements OnInit {
-  public producto:any = {};
+  public producto:any = {
+    categoria: ''
+  };
   public file : any = undefined;
   public imgSelect : any | ArrayBuffer = 'assets/img/producto_nulo.jpg';
-  constructor()
+  public config: any = {};
+  public token:any;
+  public load_btn:Boolean = false;
+  constructor(private _productoService: ProductoService, private _adminService: AdminService, private _router:Router)
   {
-
+    this.config = {
+      height: 500 
+    }
+    this.token = this._adminService.getToken();
   }
 
   ngOnInit(): void {
@@ -24,7 +35,33 @@ export class CreateProductoComponent implements OnInit {
 
   registro(registroForm:any){
     if(registroForm.valid){
-
+      if(this.file == undefined){
+        iziToast.show({
+          title: 'ERROR',
+          titleColor: "#FF0000",
+          color: '#FFF',
+          class: 'text-danger',
+          position: 'topRight',
+          message: 'Debes subir una portada para registrar'
+        });
+      }
+      this._productoService.registro_producto_admin(this.producto, this.file, this.token).subscribe(
+        response => {
+          iziToast.show({
+            title: 'SUCCESS',
+            titleColor: '#1DC74C',
+            color: '#FFF',
+            class: 'text-success',
+            position: 'topRight',
+            message: 'se registro correctamente el nuevo producto'
+          });
+          
+          this._router.navigate(['/panel/productos']);
+        },
+        error => {
+          console.log(error);
+        }
+      )
     }else{
       iziToast.show({
         title: 'ERROR',

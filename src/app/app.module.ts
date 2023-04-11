@@ -13,6 +13,10 @@ import { NgbPaginationModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CreateClienteComponent } from './components/clientes/create-cliente/create-cliente.component';
 import { EditClienteComponent } from './components/clientes/edit-cliente/edit-cliente.component';
 import { CreateProductoComponent } from './components/productos/create-producto/create-producto.component';
+import { NgxTinymceModule } from 'ngx-tinymce';
+import { IndexProductoComponent } from './components/productos/index-producto/index-producto.component';
+import { EditProductoComponent } from './components/productos/edit-producto/edit-producto.component';
+import { InventarioProductoComponent } from './components/productos/inventario-producto/inventario-producto.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +27,10 @@ import { CreateProductoComponent } from './components/productos/create-producto/
     IndexClienteComponent,
     CreateClienteComponent,
     EditClienteComponent,
-    CreateProductoComponent
+    CreateProductoComponent,
+    IndexProductoComponent,
+    EditProductoComponent,
+    InventarioProductoComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +38,10 @@ import { CreateProductoComponent } from './components/productos/create-producto/
     FormsModule,
     HttpClientModule,
     NgbPaginationModule,
-    NgbModule
+    NgbModule,
+    NgxTinymceModule.forRoot({
+      baseURL: '../../../assets/tinymce/'
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
