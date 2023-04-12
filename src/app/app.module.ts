@@ -17,6 +17,7 @@ import { NgxTinymceModule } from 'ngx-tinymce';
 import { IndexProductoComponent } from './components/productos/index-producto/index-producto.component';
 import { EditProductoComponent } from './components/productos/edit-producto/edit-producto.component';
 import { InventarioProductoComponent } from './components/productos/inventario-producto/inventario-producto.component';
+import { CreateCuponComponent } from './components/cupones/create-cupon/create-cupon.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { InventarioProductoComponent } from './components/productos/inventario-p
     CreateProductoComponent,
     IndexProductoComponent,
     EditProductoComponent,
-    InventarioProductoComponent
+    InventarioProductoComponent,
+    CreateCuponComponent
   ],
   imports: [
     BrowserModule,
