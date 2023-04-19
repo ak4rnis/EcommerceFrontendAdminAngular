@@ -42,5 +42,10 @@ export class AdminService {
     }
     return allowRoles.includes(decodedToken['role']);
   }
+
+  obtener_config_admin(token:any):Observable<any>{
+    let headers = new HttpHeaders({'Content-Type':'application/json','Authentication':token});
+    return this._http.get(this.url+'obtener_config_admin',{headers:headers});
+  }
   
 }
