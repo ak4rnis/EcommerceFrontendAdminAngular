@@ -43,8 +43,24 @@ export class AdminService {
     return allowRoles.includes(decodedToken['role']);
   }
 
+  actualiza_config_admin(id:any, data:any, token:any):Observable<any>{
+    if(data.logo){
+      let headers = new HttpHeaders({'Authorization':token});
+      const fd = new FormData();
+      fd.append('titulo',data.titulo)
+      fd.append('serie',data.serie)
+      fd.append('categorias', data.categorias)
+      fd.append('logo',data.logo)
+      return this._http.put(this.url+'actualiza_config_admin/'+id,fd,{headers:headers})
+    }else{
+      let headers = new HttpHeaders({'Content-Type':'application/json','Authorization':token});
+      return this._http.put(this.url+'actualiza_config_admin/'+id,data,{headers:headers});
+    }
+    
+  }
+
   obtener_config_admin(token:any):Observable<any>{
-    let headers = new HttpHeaders({'Content-Type':'application/json','Authentication':token});
+    let headers = new HttpHeaders({'Content-Type':'application/json','Authorization':token});
     return this._http.get(this.url+'obtener_config_admin',{headers:headers});
   }
   
