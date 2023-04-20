@@ -83,9 +83,14 @@
         <div class="form-group row align-items-center">
           <label class="col-md-3 col-form-label font-weight-medium" for="file-input">Logo</label>
           <div class="col-md-9">
-            <div class="custom-file">
-              <input class="custom-file-input" type="file" id="file-input">
-              <label class="custom-file-label" for="file-input">Buscar</label>
+            <div class="cs-file-drop-area">
+              <div class="cs-file-drop-preview img-thumbnail rounded">
+                <img [src]="imgSelect" alt="">
+              </div>
+              <div class="cs-file-drop-icon cxi-upload"></div>
+              <span class="cs-file-drop-message">Arrastre la imagen</span>
+              <input type="file" class="cs-file-drop-input" (change)="fileChangeEvent($event)">
+              <button type="button" class="cs-file-drop-btn btn btn-outline-primary btn-sm">Subir Imagen</button>
             </div>
           </div>
           
