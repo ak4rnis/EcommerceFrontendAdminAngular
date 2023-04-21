@@ -25,6 +25,7 @@ export class EditProductoComponent implements OnInit {
   public load_data:Boolean = true;
   public id:any;
   public url:any;
+  public config_global:any = {}
   constructor(
     private _productoService:ProductoService,
     private _adminService:AdminService,
@@ -37,6 +38,11 @@ export class EditProductoComponent implements OnInit {
     }
     this.token = this._adminService.getToken();
     this.url = GLOBAL.url;
+    this._adminService.obtener_config_publico().subscribe(
+      response => {
+        this.config_global = response.data;
+      }
+    )
   }
   ngOnInit(): void {
     this._route.params.subscribe(

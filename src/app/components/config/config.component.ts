@@ -25,6 +25,7 @@ export class ConfigComponent implements OnInit {
     this.token = localStorage.getItem('token');
     this._adminService.obtener_config_admin(this.token).subscribe(
       response => {
+        console.log(response)
         this.config = response.data
         this.imgSelect = this.url+'obtener_logo/'+this.config.logo;
         console.log(this.imgSelect);
@@ -72,7 +73,14 @@ export class ConfigComponent implements OnInit {
       }
       this._adminService.actualiza_config_admin("643e277e886d03f8c61ebea1",data,this.token).subscribe(
         response=>{
-          console.log(response);
+          iziToast.show({
+            title: 'SUCCESS',
+            titleColor: '#1DC74C',
+            color: '#FFF',
+            class: 'text-success',
+            position: 'topRight',
+            message: 'se actualizo correctamente la configuracion'
+          });
         }
       )
     }else{
@@ -146,5 +154,8 @@ export class ConfigComponent implements OnInit {
 
   ngDoCheck():void{
     $('.cs-file-drop-preview').html("<img src="+this.imgSelect+">");
+  }
+  eliminar_categoria(idx:any){
+    this.config.categorias.splice(idx,1);
   }
 }

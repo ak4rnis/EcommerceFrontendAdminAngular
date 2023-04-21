@@ -14,6 +14,8 @@ import { CreateCuponComponent } from './components/cupones/create-cupon/create-c
 import { IndexCuponesComponent } from './components/cupones/index-cupones/index-cupones.component';
 import { EditCuponComponent } from './components/cupones/edit-cupon/edit-cupon.component';
 import { ConfigComponent } from './components/config/config.component';
+import { VariedadProductoComponent } from './components/productos/variedad-producto/variedad-producto.component';
+import { GaleriaProductoComponent } from './components/productos/galeria-producto/galeria-producto.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'inicio', pathMatch: 'full'},
@@ -27,12 +29,16 @@ const routes: Routes = [
     {path: 'productos/registro', component: CreateProductoComponent, canActivate: [AdminGuard]},
     {path: 'productos/:id', component: EditProductoComponent, canActivate: [AdminGuard]},
     {path: 'productos/inventario/:id', component: InventarioProductoComponent, canActivate: [AdminGuard]},
+    {path: 'productos/variedades/:id', component: VariedadProductoComponent, canActivate: [AdminGuard]},
+    {path: 'productos/galeria/:id', component: GaleriaProductoComponent, canActivate: [AdminGuard]},
 
     {path: 'cupones', component: IndexCuponesComponent, canActivate: [AdminGuard]},
     {path: 'cupones/registro', component: CreateCuponComponent, canActivate: [AdminGuard]},
     {path: 'cupones/:id', component: EditCuponComponent, canActivate: [AdminGuard]},
 
     {path: 'configuraciones', component: ConfigComponent, canActivate: [AdminGuard]},
+
+    
     
 
   ]},

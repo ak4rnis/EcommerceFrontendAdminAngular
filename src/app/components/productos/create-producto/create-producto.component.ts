@@ -21,12 +21,19 @@ export class CreateProductoComponent implements OnInit {
   public config: any = {};
   public token:any;
   public load_btn:Boolean = false;
+  public config_global:any = {};
   constructor(private _productoService: ProductoService, private _adminService: AdminService, private _router:Router)
   {
     this.config = {
       height: 500 
     }
     this.token = this._adminService.getToken();
+    this._adminService.obtener_config_publico().subscribe(
+      response => {
+        this.config_global = response.data;
+        console.log(this.config_global)
+      }
+    )
   }
 
   ngOnInit(): void {
