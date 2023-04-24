@@ -21,6 +21,7 @@ export class GaleriaProductoComponent implements OnInit {
   public load_btn:Boolean = false;
   public url:any;
   public file:any = undefined;
+  public load_btn_eliminar:Boolean = false;
   public imgSelect : any | ArrayBuffer = 'assets/img/producto_nulo.jpg';
   constructor(private _route: ActivatedRoute, private _productoService: ProductoService){
     this.token = localStorage.getItem('token');
@@ -28,21 +29,25 @@ export class GaleriaProductoComponent implements OnInit {
     this._route.params.subscribe(
       params => {
         this.id = params['id'];
-        this._productoService.obtener_producto_admin(this.id,this.token).subscribe(
-          response => {
-            if(response.data == undefined){
-              this.producto = undefined;
-            }else{
-              this.producto = response.data;
-            }
-            console.log(this.producto);
-          }
-        )
+        this.init_data()
+        
       }
     )
   }
   ngOnInit(): void {
       
+  }
+  init_data(){
+    this._productoService.obtener_producto_admin(this.id,this.token).subscribe(
+      response => {
+        if(response.data == undefined){
+          this.producto = undefined;
+        }else{
+          this.producto = response.data;
+        }
+        console.log(this.producto);
+      }
+    )
   }
 
   subir_imagen(){
@@ -55,7 +60,8 @@ export class GaleriaProductoComponent implements OnInit {
       console.log(data);
       this._productoService.agregar_imagen_galeria_admin(this.id, data, this.token).subscribe(
         response => {
-          console.log(response.data)
+          this.init_data()
+          $('#input-img').val('');
         }
       )
     }else{
@@ -125,5 +131,37 @@ export class GaleriaProductoComponent implements OnInit {
       this.file = undefined;
 
     }
+  }
+
+  eliminar(id:any){
+    this.load_btn_eliminar = true;
+    this._productoService.eliminar_imagen_galeria_admin(this.id, {_id:id}, this.token).subscribe(
+      response => {
+        iziToast.show({
+          title: 'SUCCESS',
+          titleColor: "#FF0000",
+          color: '#FFF',
+          class: 'text-success',
+          position: 'topRight',
+          message: 'Se elimino correctamente la imagen.'
+        });
+        $('#delete-'+id).modal('hide');
+        $('.modal-backdrop').removeClass('show');
+        this.load_btn_eliminar = false;
+        this.init_data();
+      },
+      error => {
+        iziToast.show({
+          title: 'ERROR',
+          titleColor: "#FF0000",
+          color: '#FFF',
+          class: 'text-danger',
+          position: 'topRight',
+          message: 'No se elimino correctamente la imagen'
+        });
+        console.log(error);
+        this.load_btn_eliminar = false;
+      }
+    )
   }
 }
