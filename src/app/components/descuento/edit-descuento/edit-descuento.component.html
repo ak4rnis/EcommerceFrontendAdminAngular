@@ -1,1 +1,90 @@
-<p>edit-descuento works!</p>
+<app-sidebar></app-sidebar>
+<!-- Page title-->
+<div class="border-bottom pt-5 mt-2 mb-5">
+    <h1 class="mt-2 mt-md-4 mb-3 pt-5">Descuentos</h1>
+    <div class="d-flex flex-wrap flex-md-nowrap justify-content-between">
+      <p class="text-muted">Este módulo lista todos los descuentos de la tienda.</p>
+      
+    </div>
+  </div>
+  <ng-container *ngIf="descuento">
+    <form #updateForm="ngForm" (ngSubmit)="update(updateForm)">
+      <div class="card box-shadow-sm">
+          <div class="card-header">
+              <h5 style="margin-bottom: 0px;">Actualizar Descuento</h5>
+          </div>
+          <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-8">
+                      <div class="row">
+                        <div class="col-lg-12 form-group">	
+                            <label for="">Titulo de descuento</label>
+                            <input type="text" class="form-control" placeholder="Titulo de producto" name="titulo" [(ngModel)]="descuento.titulo" required>
+                        </div>
+                        <div class="col-lg-6 form-group">
+                          <label for="">Fecha inicio</label>
+                          <input type="date" class="form-control" name="fecha_inicio" [(ngModel)]="descuento.fecha_inicio">
+                        </div>
+                        <div class="col-lg-6 form-group">
+                          <label for="">Fecha inicio</label>
+                          <input type="date" class="form-control" name="fecha_fin" [(ngModel)]="descuento.fecha_fin">
+                        </div>
+                        <div class="col-lg-6 form-group">
+                          <label for="">Descuento %</label>
+                          <input type="text" class="form-control" placeholder="Porcentaje del descuento" require name="descuento" [(ngModel)]="descuento.descuento">
+                        </div>
+  
+                        
+  
+                        
+  
+                      </div>
+                  </div>
+                  <div class="col-lg-4">
+                    <div class="row">
+                      <div class="col-lg-12 form-group">	
+                          <label for="">Portada</label>
+                          <div class="custom-file">
+                            <input class="custom-file-input" type="file" id="file-input" (change)="fileChangeEvent($event)">
+                            <label class="custom-file-label" id="input-banner" for="file-input" style="white-space:nowrap;overflow:hidden">Seleccionar imagen</label>
+                          </div>
+                      </div>
+                      <div class="col-lg-12">
+                        <img [src]="imgSelect" class="img-thumbnail" alt="Rounded image">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+          </div>
+          <div class="card-footer">
+            <button *ngIf="!load_btn" class="btn btn-primary mr-3" type="submit">Actualizar cliente</button>
+            <button *ngIf="load_btn" class="btn btn-secondary mr-3" type="button" disabled>
+                <span class="spinner-grow spinner-grow-sm mr-2" role="status" aria-hidden="true"></span>
+                Actualizando...
+              </button>
+            <a [routerLink]="['/panel/productos']" class="btn btn-warning">Regresar</a>
+          </div>
+    </div>    
+    </form>
+  </ng-container>
+  <ng-container *ngif="producto == undefined">
+    <div class="card">
+      <div class="card-body">
+        <h3 class="text-center">No se enocontro ningun registro</h3>
+                <div class="row">
+                    <div class="col-3 mx-auto">
+                        <img src="assets/img/components/alert.png" alt="" style="width: 100px;" >
+                    </div>
+                    
+                </div>
+      </div>
+    </div>
+  </ng-container>
+  
+  
+ 
+  
+
+
+
+

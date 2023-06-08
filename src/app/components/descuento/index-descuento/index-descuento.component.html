@@ -3,16 +3,16 @@
 <div class="border-bottom pt-5 mt-2 mb-5">
     <h1 class="mt-2 mt-md-4 mb-3 pt-5">Productos</h1>
     <div class="d-flex flex-wrap flex-md-nowrap justify-content-between">
-      <p class="text-muted">Este módulo lista todos los productos de la tienda.</p>
+      <p class="text-muted">Este módulo lista todos los descuentos de la tienda.</p>
       <p class="font-size-sm font-weight-medium pl-md-4">
-        <a class="text-nowrap" [routerLink]="['/panel/productos/registro']">Registrar nuevo<i class="cxi-angle-right font-size-base align-middle ml-1"></i></a>
+        <a class="text-nowrap" [routerLink]="['/panel/descuentos/registro']">Registrar nuevo<i class="cxi-angle-right font-size-base align-middle ml-1"></i></a>
       </p>
     </div>
   </div>
 
   <div class="card box-shadow-sm">
         <div class="card-header">
-            <h5 style="margin-bottom: 0px;">Filtro de productos</h5>
+            <h5 style="margin-bottom: 0px;">Filtro de descuentos</h5>
         </div>
         <div class="card-header">
             <div class="row">
@@ -25,9 +25,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12 mt-3">
-                  <button class="btn btn-success" type="button" (click)="download_excelo()">Exportar a excel</button>
-                </div>
+                
             </div>
         </div>
         
@@ -38,10 +36,9 @@
                     <tr>
                       
                       <th>Titulo</th>
-                      <th>Stock</th>
-                      <th>Precio</th>
-                      <th>Categoria</th>
-                      <th>Ventas</th>
+                      <th>Descuento</th>
+                      <th>Vigencia</th>
+                      <th>Estado</th>
                       <th>OP</th>
                     </tr>
                   </thead>
@@ -55,56 +52,69 @@
                     </tr>
                   </tbody>
                   <ng-container *ngIf="!load_data">
-                    <tbody *ngFor="let item of productos | slice: (page-1)*pageSize: (page-1)*pageSize + pageSize let indice = index" >
-                      <tr>
-                        
-                        <td>
-                          <h6 style="padding-bottom: 0;margin-bottom: 0;">
-                            <img style="width: 50px;" [src]="url+'obtener_portada/'+item.portada" class="img-thumbnail rounded-0" alt="Square image">
-                            {{item.titulo}}
-                          </h6>
+                    <ng-container *ngIf="descuentos.length == 0">
+                      <td colspan="5" class="text-center">
+                        <span class="text-muted">No se encontraron registros</span>
+                      </td>
+                    </ng-container>
+
+                    <ng-container *ngIf="descuentos.length >= 1">
+                      <tbody *ngFor="let item of descuentos | slice: (page-1)*pageSize: (page-1)*pageSize + pageSize let indice = index" >
+                        <tr>
+                          
+                          <td>
+                            <h6 style="padding-bottom: 0;margin-bottom: 0;">
+                              <img style="width: 50px;" [src]="url+'obtener_banner/'+item.banner" class="img-thumbnail rounded-0" alt="Square image">
+                              {{item.titulo}}
+                            </h6>
+                            </td>
+                          
+                          <td>{{item.descuento}}</td>
+                          <td>{{item.fecha_inicio}} - {{item.fecha_fin}}</td>
+                          <td>
+                            <span class="badge badge-primary" *ngIf="item.estado == 'Proximamente'">{{item.estado}}</span>
+                            <span class="badge badge-danger" *ngIf="item.estado == 'Expirado'">{{item.estado}}</span>
+                            <span class="badge badge-success" *ngIf="item.estado == 'En progreso'">{{item.estado}}</span>
                           </td>
-                        <td>{{item.stock}}</td>
-                        <td>{{item.precio}}</td>
-                        <td>{{item.categoria}}</td>
-                        <td>{{item.nventas}}</td>
-                        <td>
-                          <div class="btn-group dropdown d-inline-block mb-3 mr-2">
-                            <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
-                              aria-expanded="false">OPCIONES</button>
-                            <div class="dropdown-menu">
-                              <a class="dropdown-item" [routerLink]="['/panel/productos',item._id]">Editar Producto</a>
-                              <a class="dropdown-item" [routerLink]="['/panel/productos/inventario',item._id]">Inventario</a>
-                              <a class="dropdown-item" style="cursor: pointer;" data-toggle="modal" [attr.data-target]="'#delete-'+item._id" >Eliminar Producto</a>
-                              <a class="dropdown-item" [routerLink]="['/panel/productos/variedades',item._id]">Variedades</a>
-                              <a class="dropdown-item" [routerLink]="['/panel/productos/galeria',item._id]">Galeria</a>
+                          <td>
+                            <div class="btn-group dropdown d-inline-block mb-3 mr-2">
+                              <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">OPCIONES</button>
+                              <div class="dropdown-menu">
+                                <a class="dropdown-item" [routerLink]="['/panel/descuentos',item._id]">Editar Descuento</a>
+                                
+                                <a class="dropdown-item" style="cursor: pointer;" data-toggle="modal" [attr.data-target]="'#delete-'+item._id" >Eliminar Descuento</a>
+                                
+                                
+                              </div>
+    
                             </div>
-  
-                          </div>
-                          <div class="modal fade" id="delete-{{item._id}}" tabindex="-1" style="display: none;" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered" role="document">
-                              <div class="modal-content">
-                                <div class="modal-header">
-                                  <h4 class="modal-title">Confirmacion de eliminar</h4>
-                                  <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
-                                </div>
-                                <div class="modal-body">
-                                  <p>{{item.titulo}}, desea eliminar este producto?</p>
-                                </div>
-                                <div class="modal-footer">
-                                  <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal">Cancelar</button>
-                                  <button *ngIf="!load_btn" class="btn btn-primary btn-shadow btn-sm" (click)="eliminar(item._id)" type="button">Si, eliminar</button>
-                                  <button *ngIf="load_btn" type="button" class="btn btn-secondary" disabled>
-                                    <span class="spinner-grow spinner-grow-sm mr-2" role="status" aria-hidden="true"></span>
-                                    Eliminando...
-                                  </button>
+                            <div class="modal fade" id="delete-{{item._id}}" tabindex="-1" style="display: none;" aria-hidden="true">
+                              <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h4 class="modal-title">Confirmacion de eliminar</h4>
+                                    <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
+                                  </div>
+                                  <div class="modal-body">
+                                    <p>{{item.titulo}}, desea eliminar este descuento?</p>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal">Cancelar</button>
+                                    <button *ngIf="!load_btn" class="btn btn-primary btn-shadow btn-sm" (click)="eliminar(item._id)" type="button">Si, eliminar</button>
+                                    <button *ngIf="load_btn" type="button" class="btn btn-secondary" disabled>
+                                      <span class="spinner-grow spinner-grow-sm mr-2" role="status" aria-hidden="true"></span>
+                                      Eliminando...
+                                    </button>
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
-                        </td>
-                      </tr>
-                    </tbody>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </ng-container>
+                    
                   </ng-container>
                   
                 </table>
@@ -114,7 +124,7 @@
            <ngb-pagination style="color:black"  
             [(page)]="page"
             [pageSize]="pageSize"
-            [collectionSize]="productos.length"
+            [collectionSize]="descuentos.length"
             
             
             
