@@ -61,34 +61,46 @@ export class EditDescuentoComponent implements OnInit {
   update(updateForm:any){
     if(updateForm.valid)
     {
-      var data:any = {};
-      if(this.file != undefined)
-      {
-        data.banner = this.file;
-      } 
-      data.titulo = this.descuento.titulo;
-      data.fecha_inicio = this.descuento.fecha_inicio;
-      data.fecha_fin = this.descuento.fecha_fin;
+      if(this.descuento.descuento >= 1 && this.descuento.descuento <= 100){
+        var data:any = {};
+        if(this.file != undefined)
+        {
+          data.banner = this.file;
+        } 
+        data.titulo = this.descuento.titulo;
+        data.fecha_inicio = this.descuento.fecha_inicio;
+        data.fecha_fin = this.descuento.fecha_fin;
       
-      this._productoService.actualizar_producto_admin(this.id, data, this.token).subscribe(
-        response => {
-          console.log(response)
-          iziToast.show({
-            title: 'SUCCESS',
-            titleColor: '#1DC74C',
-            color: '#FFF',
-            class: 'text-success',
-            position: 'topRight',
-            message: 'se actualizo correctamente el descuento'
-          });
-          this.load_btn = false;
-          this._router.navigate(['/panel/descuentos']);
-        },
-        error=>{
-          console.log(error);
-          this.load_btn = false;
-        }
-      )
+        this._descuentoService.actualizar_descuento_admin(this.id, data, this.token).subscribe(
+          response => {
+            console.log(response)
+            iziToast.show({
+              title: 'SUCCESS',
+              titleColor: '#1DC74C',
+              color: '#FFF',
+              class: 'text-success',
+              position: 'topRight',
+              message: 'se actualizo correctamente el descuento'
+            });
+            this.load_btn = false;
+            this._router.navigate(['/panel/descuentos']);
+          },
+          error=>{
+            console.log(error);
+            this.load_btn = false;
+          }
+        )
+      }else{
+        iziToast.show({
+          title: 'ERROR',
+          titleColor: "#FF0000",
+          color: '#FFF',
+          class: 'text-danger',
+          position: 'topRight',
+          message: 'El descuento debe ser entre 0% a 100%'
+        });
+      }
+      
     }else{
       iziToast.show({
         title: 'ERROR',

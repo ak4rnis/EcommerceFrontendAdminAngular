@@ -40,24 +40,39 @@ export class CreateDescuentoComponent implements OnInit {
           position: 'topRight',
           message: 'Debes subir un banner para registrar'
         });
-      }
-      this._descuentoService.registro_descuento_admin(this.descuento, this.file, this.token).subscribe(
-        response => {
+      }else{
+        if(this.descuento.descuento >= 1 && this.descuento.descuento <= 100){
+          this.load_btn = true;
+          this._descuentoService.registro_descuento_admin(this.descuento, this.file, this.token).subscribe(
+            response => {
+              iziToast.show({
+                title: 'SUCCESS',
+                titleColor: '#1DC74C',
+                color: '#FFF',
+                class: 'text-success',
+                position: 'topRight',
+                message: 'se registro correctamente el nuevo descuento'
+              });
+              
+              this._router.navigate(['/panel/descuentos']);
+            },
+            error => {
+              this.load_btn = false;
+            }
+          )
+        }else{
           iziToast.show({
-            title: 'SUCCESS',
-            titleColor: '#1DC74C',
+            title: 'ERROR',
+            titleColor: "#FF0000",
             color: '#FFF',
-            class: 'text-success',
+            class: 'text-danger',
             position: 'topRight',
-            message: 'se registro correctamente el nuevo descuento'
+            message: 'El descuento debe ser entre 0% a 100%'
           });
-          
-          this._router.navigate(['/panel/descuentos']);
-        },
-        error => {
-          console.log(error);
+          this.load_btn = false;
         }
-      )
+      }
+      
     }else{
       iziToast.show({
         title: 'ERROR',

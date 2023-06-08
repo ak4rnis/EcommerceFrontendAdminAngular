@@ -57,12 +57,12 @@
                 </div>
           </div>
           <div class="card-footer">
-            <button *ngIf="!load_btn" class="btn btn-primary mr-3" type="submit">Actualizar cliente</button>
+            <button *ngIf="!load_btn" class="btn btn-primary mr-3" type="submit">Actualizar descuento</button>
             <button *ngIf="load_btn" class="btn btn-secondary mr-3" type="button" disabled>
                 <span class="spinner-grow spinner-grow-sm mr-2" role="status" aria-hidden="true"></span>
                 Actualizando...
               </button>
-            <a [routerLink]="['/panel/productos']" class="btn btn-warning">Regresar</a>
+            <a [routerLink]="['/panel/descuentos']" class="btn btn-warning">Regresar</a>
           </div>
     </div>    
     </form>
