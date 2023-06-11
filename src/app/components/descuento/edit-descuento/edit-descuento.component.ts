@@ -47,7 +47,7 @@ export class EditDescuentoComponent implements OnInit {
               this.descuento = undefined
             }else{
               this.descuento = response.data;
-              this.imgSelect = this.url + 'obtener_banner/'+ this.descuento.banner;
+              this.imgSelect = this.url + 'obtener_banner_descuento/'+ this.descuento.banner;
             }
           },
           error => {
@@ -70,6 +70,7 @@ export class EditDescuentoComponent implements OnInit {
         data.titulo = this.descuento.titulo;
         data.fecha_inicio = this.descuento.fecha_inicio;
         data.fecha_fin = this.descuento.fecha_fin;
+        data.descuento = this.descuento.descuento;
       
         this._descuentoService.actualizar_descuento_admin(this.id, data, this.token).subscribe(
           response => {

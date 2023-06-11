@@ -38,7 +38,7 @@ export class IndexDescuentoComponent implements OnInit {
         this.descuentos = response.data;
         this.descuentos.forEach((element:any) => {
           var tt_inicio = Date.parse(element.fecha_inicio+"T00:00:00")/1000;
-          var tt_fin = Date.parse(element.fecha_fin+"T00:00:00")/1000;
+          var tt_fin = Date.parse(element.fecha_fin+"T23:59:59")/1000;
           var today = Date.parse(new Date().toString())/1000;
           if(today>tt_inicio){
             element.estado = 'Expirado';
